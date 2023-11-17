@@ -6,6 +6,7 @@
     <TransactionList :transactionsProp="transactions" @transactionDeleted="handleTransactionDeleted" />
     <!-- TransactionProps is the name of the prop, which is equal to the actual name of the variable -->
     <AddTransaction @transactionSubmitted="handleTransactionSubmitted" />
+    <Footer />
   </div>
 </template>
 
@@ -15,6 +16,7 @@ import Balance from './components/Balance.vue'
 import IncomeExpenses from './components/IncomeExpenses.vue';
 import TransactionList from './components/TransactionList.vue'
 import AddTransaction from './components/AddTransaction.vue';
+import Footer from './components/Footer.vue'
 
 import { useToast } from 'vue-toastification'
 
