@@ -1,6 +1,6 @@
 <template>
     <h4>Your Balance</h4>
-    <h1 id="balance">€ {{ totalProp }}</h1>
+    <h1 id="balance">€ {{ totalProp.toFixed(2) }}</h1>
 </template>
 
 <script setup>
