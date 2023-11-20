@@ -1,12 +1,13 @@
 <template>
     <h3>History</h3>
-    <ul id="list" class="list">
+    <ul v-show="selectedTransaction" id="list" class="list">
         <li v-for="transaction in transactionsProp" :key="transaction.id"
             :class="transaction.amount < 0 ? 'minus' : 'plus'">
             {{ transaction.text }} <span>€{{ transaction.amount }}</span>
             <button @click="prepareDeleteTransaction(transaction)" class="delete-btn">x</button>
         </li>
     </ul>
+    <p v-show="transactionsProp[0] === undefined"> No items found! <br> Please add them using the form below </p>
     <DialogsWrapper />
 </template>
 
@@ -14,7 +15,7 @@
 import { DialogsWrapper } from 'vuejs-confirm-dialog';
 import ModalDialog from './ModalDialog.vue';
 import { createConfirmDialog } from 'vuejs-confirm-dialog';
-import { onBeforeMount, reactive } from 'vue';
+import { reactive } from 'vue';
 
 const selectedTransaction = reactive({})
 
