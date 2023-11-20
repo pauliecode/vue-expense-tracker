@@ -3,10 +3,10 @@
   <div class="container">
     <Balance :totalProp="+total" />
     <IncomeExpenses :incomeProp="+income" :expensesProp="+expenses" />
+    <AddTransaction @transactionSubmitted="handleTransactionSubmitted" />
     <TransactionList v-if="transactions" :transactionsProp="transactions"
       @transactionDeleted="handleTransactionDeleted" />
     <!-- TransactionsProps is the name of the prop, which is equal to the actual name of the variable -->
-    <AddTransaction @transactionSubmitted="handleTransactionSubmitted" />
     <Footer />
 
   </div>
