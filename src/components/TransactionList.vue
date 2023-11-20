@@ -1,7 +1,7 @@
 <template>
     <h3>Transaction List</h3>
     <ul v-show="selectedTransaction" id="list" class="list">
-        <li v-for="transaction in transactionsProp" :key="transaction.id"
+        <li v-for="transaction in transactionsProp.slice().reverse()" :key="transaction.id"
             :class="transaction.amount < 0 ? 'minus' : 'plus'">
             {{ transaction.text }} <span>€{{ transaction.amount }}</span>
             <button @click="prepareDeleteTransaction(transaction)" class="delete-btn">x</button>
@@ -26,6 +26,7 @@ const prepareDeleteTransaction = (transaction) => {
     selectedTransaction.value = transaction
     reveal()
 }
+
 
 const props = defineProps({ // Here we pass in the name of the props as passed in the component declaration and we use that in the code of the component, not the name of the variable
     transactionsProp: {
