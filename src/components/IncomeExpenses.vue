@@ -5,7 +5,7 @@
             <p id="money-plus" class="money plus">€{{ incomeProp }}</p>
         </div>
         <div>
-            <h4>Expense</h4>
+            <h4>Expenses</h4>
             <p id="money-minus" class="money minus">€{{ expensesProp }}</p>
         </div>
     </div>

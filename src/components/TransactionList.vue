@@ -1,5 +1,5 @@
 <template>
-    <h3>History</h3>
+    <h3>Transaction List</h3>
     <ul v-show="selectedTransaction" id="list" class="list">
         <li v-for="transaction in transactionsProp" :key="transaction.id"
             :class="transaction.amount < 0 ? 'minus' : 'plus'">
@@ -17,7 +17,7 @@ import ModalDialog from './ModalDialog.vue';
 import { createConfirmDialog } from 'vuejs-confirm-dialog';
 import { reactive } from 'vue';
 
-const selectedTransaction = reactive({})
+const selectedTransaction = reactive({}) // Declaring reactive state (Reactive is for objects, ref is for non-objects)
 
 // Function that takes in a parameter (In this case transaction from the for loop in the DOM)
 // then saves this parameter as the value of a reactive variable to save it as a state
