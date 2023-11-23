@@ -1,17 +1,18 @@
 <template>
     <h3>Transaction List</h3>
     <ul v-show="selectedTransaction" id="list" class="list">
-        <li v-for="transaction in transactionsProp.slice(-5).reverse()" :key="transaction.id"
+        <li v-show="isHidden" v-for="transaction in transactionsProp.slice(-5).reverse()"
+            :class="transaction.amount < 0 ? 'minus' : 'plus'">
+            {{ transaction.text }}<span>€{{ transaction.amount }}</span>
+            <button @click="prepareDeleteTransaction(transaction)" class="delete-btn">x</button>
+        </li>
+        <li v-show="!isHidden" v-for="transaction in transactionsProp.slice().reverse()" :key="transaction.id"
             :class="transaction.amount < 0 ? 'minus' : 'plus'">
             {{ transaction.text }} <span>€{{ transaction.amount }}</span>
             <button @click="prepareDeleteTransaction(transaction)" class="delete-btn">x</button>
         </li>
-        <li v-show="!isHidden" v-for="transaction in transactionsProp.slice(-transactionsProp.length, 5).reverse()"
-            :key="transaction.id" :class="transaction.amount < 0 ? 'minus' : 'plus'">
-            {{ transaction.text }} <span>€{{ transaction.amount }}</span>
-            <button @click="prepareDeleteTransaction(transaction)" class="delete-btn">x</button>
-        </li>
-        <button @click="isHidden = !isHidden" class="btn-show-more">Show more</button>
+        <button v-show="transactionsProp.length > 5" @click="isHidden = !isHidden" class="btn-show-more">Show
+            more</button>
     </ul>
     <p v-show="transactionsProp[0] === undefined"> No items found! <br> Please add them using the form below </p>
     <DialogsWrapper />
@@ -33,12 +34,6 @@ const prepareDeleteTransaction = (transaction) => {
     selectedTransaction.value = transaction
     reveal()
 }
-
-const showMore = (transactionsList) => {
-    selectedTransaction.value = transactionsList
-    console.log(selectedTransaction.value.slice(5).reverse())
-}
-
 
 const props = defineProps({ // Here we pass in the name of the props as passed in the component declaration and we use that in the code of the component, not the name of the variable
     transactionsProp: {
