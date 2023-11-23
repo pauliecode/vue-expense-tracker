@@ -4,8 +4,8 @@
     <Balance :totalProp="+total" />
     <IncomeExpenses :incomeProp="+income" :expensesProp="+expenses" />
     <AddTransaction @transactionSubmitted="handleTransactionSubmitted" />
-    <TransactionList v-if="transactions" :transactionsProp="transactions"
-      @transactionDeleted="handleTransactionDeleted" />
+    <TransactionList v-if="transactions" :transactionsProp="transactions" @transactionDeleted="handleTransactionDeleted"
+      @allTransactionsDeleted="handleDeleteAllTransactions" />
     <!-- TransactionsProps is the name of the prop, which is equal to the actual name of the variable -->
     <Footer />
 
@@ -89,6 +89,15 @@ const handleTransactionDeleted = (id) => {
   saveTransactionsToLocalStorage()
 
   toast.success('Transaction deleted succesfully!')
+}
+
+// Delte all transactions
+const handleDeleteAllTransactions = () => {
+  transactions.value = []
+
+  saveTransactionsToLocalStorage()
+
+  toast.success('All transactions have been deleted successfully!')
 }
 
 // Save to localStorage
