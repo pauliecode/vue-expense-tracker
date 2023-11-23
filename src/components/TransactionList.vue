@@ -1,11 +1,17 @@
 <template>
     <h3>Transaction List</h3>
     <ul v-show="selectedTransaction" id="list" class="list">
-        <li v-for="transaction in transactionsProp.slice().reverse()" :key="transaction.id"
+        <li v-for="transaction in transactionsProp.slice(-5).reverse()" :key="transaction.id"
             :class="transaction.amount < 0 ? 'minus' : 'plus'">
             {{ transaction.text }} <span>€{{ transaction.amount }}</span>
             <button @click="prepareDeleteTransaction(transaction)" class="delete-btn">x</button>
         </li>
+        <li v-show="!isHidden" v-for="transaction in transactionsProp.slice(-transactionsProp.length, 5).reverse()"
+            :key="transaction.id" :class="transaction.amount < 0 ? 'minus' : 'plus'">
+            {{ transaction.text }} <span>€{{ transaction.amount }}</span>
+            <button @click="prepareDeleteTransaction(transaction)" class="delete-btn">x</button>
+        </li>
+        <button @click="isHidden = !isHidden" class="btn-show-more">Show more</button>
     </ul>
     <p v-show="transactionsProp[0] === undefined"> No items found! <br> Please add them using the form below </p>
     <DialogsWrapper />
@@ -15,9 +21,10 @@
 import { DialogsWrapper } from 'vuejs-confirm-dialog';
 import ModalDialog from './ModalDialog.vue';
 import { createConfirmDialog } from 'vuejs-confirm-dialog';
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
 
 const selectedTransaction = reactive({}) // Declaring reactive state (Reactive is for objects, ref is for non-objects)
+const isHidden = ref(true)
 
 // Function that takes in a parameter (In this case transaction from the for loop in the DOM)
 // then saves this parameter as the value of a reactive variable to save it as a state
@@ -25,6 +32,11 @@ const selectedTransaction = reactive({}) // Declaring reactive state (Reactive i
 const prepareDeleteTransaction = (transaction) => {
     selectedTransaction.value = transaction
     reveal()
+}
+
+const showMore = (transactionsList) => {
+    selectedTransaction.value = transactionsList
+    console.log(selectedTransaction.value.slice(5).reverse())
 }
 
 
