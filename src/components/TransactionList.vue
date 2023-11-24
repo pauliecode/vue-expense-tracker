@@ -11,8 +11,9 @@
             {{ transaction.text }} <span>€{{ transaction.amount }}</span>
             <button @click="prepareDeleteTransaction(transaction.id)" class="delete-btn">x</button>
         </li>
-        <button v-show="transactionsProp.length > 5" @click="isHidden = !isHidden" class="btn-show-more">Show
-            more</button>
+        <button v-show="transactionsProp.length > 5" @click="isHidden = !isHidden; showAllButton()" class="btn-show-more">{{
+            showAllText
+        }}</button>
     </ul>
     <p v-show="transactionsProp[0] === undefined"> No items found! <br> Please add them using the form below </p>
     <DialogsWrapper />
@@ -27,8 +28,7 @@ import useConfirmBeforeAction from './useConfirmBeforeAction'
 
 const selectedTransaction = reactive({}) // Declaring reactive state (Reactive is for objects, ref is for non-objects)
 const isHidden = ref(true)
-
-
+const showAllText = ref('Show All')
 
 const props = defineProps({ // Here we pass in the name of the props as passed in the component declaration and we use that in the code of the component, not the name of the variable
     transactionsProp: {
@@ -37,7 +37,14 @@ const props = defineProps({ // Here we pass in the name of the props as passed i
     }
 });
 
-
+const showAllButton = () => {
+    if (isHidden.value === false) {
+        showAllText.value = 'Show Less'
+    }
+    else {
+        showAllText.value = 'Show All'
+    }
+}
 
 const prepareDeleteTransaction = (id) => {
     useConfirmBeforeAction(
@@ -55,6 +62,7 @@ const prepareDeleteAllTransactions = () => {
         },
         { question: ` Are you sure you want to delete all transactions?` }
     )
+    isHidden = isHIdden
 }
 
 
