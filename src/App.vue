@@ -4,38 +4,40 @@
     <Balance :totalProp="+total" />
     <IncomeExpenses :incomeProp="+income" :expensesProp="+expenses" />
     <AddTransaction @transactionSubmitted="handleTransactionSubmitted" />
-    <TransactionList v-if="transactions" :transactionsProp="transactions" @transactionDeleted="handleTransactionDeleted"
-      @allTransactionsDeleted="handleDeleteAllTransactions" />
-    <!-- TransactionsProps is the name of the prop, which is equal to the actual name of the variable -->
+    <TransactionList
+      v-if="transactions"
+      :transactionsProp="transactions"
+      @transactionDeleted="handleTransactionDeleted"
+      @allTransactionsDeleted="handleDeleteAllTransactions"
+    />
+    <!-- TransactionsProp is the name of the prop, which is equal to the actual name of the variable -->
     <Footer />
-
   </div>
 </template>
 
 <script setup>
-import Header from './components/Header.vue'
-import Balance from './components/Balance.vue'
-import IncomeExpenses from './components/IncomeExpenses.vue';
-import TransactionList from './components/TransactionList.vue'
-import AddTransaction from './components/AddTransaction.vue';
-import Footer from './components/Footer.vue'
+import Header from "./components/Header.vue";
+import Balance from "./components/Balance.vue";
+import IncomeExpenses from "./components/IncomeExpenses.vue";
+import TransactionList from "./components/TransactionList.vue";
+import AddTransaction from "./components/AddTransaction.vue";
+import Footer from "./components/Footer.vue";
 
-import { useToast } from 'vue-toastification'
+import { useToast } from "vue-toastification";
 
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted } from "vue";
 
-const toast = useToast()
+const toast = useToast();
 
 const transactions = ref([]);
 
 onMounted(() => {
-  const savedTransactions = JSON.parse(localStorage.getItem('transactions'));
+  const savedTransactions = JSON.parse(localStorage.getItem("transactions"));
 
   if (savedTransactions) {
     transactions.value = savedTransactions;
   }
-})
-
+});
 
 // Get total
 const total = computed(() => {
@@ -50,7 +52,8 @@ const income = computed(() => {
     .filter((transaction) => transaction.amount > 0)
     .reduce((acc, transaction) => {
       return acc + transaction.amount;
-    }, 0).toFixed(2);
+    }, 0)
+    .toFixed(2);
 });
 
 // Get expenses
@@ -59,7 +62,8 @@ const expenses = computed(() => {
     .filter((transaction) => transaction.amount < 0)
     .reduce((acc, transaction) => {
       return acc + transaction.amount;
-    }, 0).toFixed(2);
+    }, 0)
+    .toFixed(2);
 });
 
 // Add transaction
@@ -67,45 +71,43 @@ const handleTransactionSubmitted = (transactionData) => {
   transactions.value.push({
     id: generateUniqueId(),
     text: transactionData.text,
-    amount: transactionData.amount
+    amount: transactionData.amount,
   });
 
   saveTransactionsToLocalStorage();
 
-  toast.success('Transaction successfully added!')
+  toast.success("Transaction successfully added!");
 
-  console.log(generateUniqueId())
-}
+  console.log(generateUniqueId());
+};
 
 // Generate Unique ID
 const generateUniqueId = () => {
   return Math.floor(Math.random() * 1000000);
-}
+};
 
 // Delete transaction
 const handleTransactionDeleted = (id) => {
-  transactions.value = transactions.value.filter((transaction) => transaction.id !== id)
+  transactions.value = transactions.value.filter(
+    (transaction) => transaction.id !== id
+  );
 
-  saveTransactionsToLocalStorage()
+  saveTransactionsToLocalStorage();
 
-  toast.success('Transaction deleted succesfully!')
-}
+  toast.success("Transaction deleted succesfully!");
+};
 
 // Delte all transactions
 const handleDeleteAllTransactions = () => {
-  transactions.value = []
+  transactions.value = [];
 
-  saveTransactionsToLocalStorage()
+  saveTransactionsToLocalStorage();
 
-  toast.success('All transactions have been deleted successfully!')
-}
+  toast.success("All transactions have been deleted successfully!");
+};
 
 // Save to localStorage
 const saveTransactionsToLocalStorage = () => {
-  localStorage.setItem('transactions', JSON.stringify(transactions.value))
-}
-
-
-
-
+  localStorage.setItem("transactions", JSON.stringify(transactions.value));
+};
 </script>
