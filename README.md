@@ -1,6 +1,6 @@
-# vue-expense-tracker
+# vue-expenses-tracker
 
-My first project with VueJS, using the Composition API!
+A simple but effective app to track your income and expenses. Made with VueJS, using the Composition API!
 Now working on upgrading it and adding new features!
 
 
